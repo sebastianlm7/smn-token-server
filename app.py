@@ -14,9 +14,17 @@ def get_token():
             verify=False
         )
         html = response.text
+        
+        # Guardar los primeros 1000 caracteres para debug
+        snippet = html[:1000]
+        
         match = re.search(r"setItem\('token', '([^']+)'", html)
-        token = match.group(1) if match else "NO_TOKEN"
-        return token
+        token = match.group(1) if match else None
+        
+        if token:
+            return token
+        else:
+            return f"NO_TOKEN. HTML snippet:\n{snippet}"
     except Exception as e:
         return f"ERROR: {str(e)}"
 
