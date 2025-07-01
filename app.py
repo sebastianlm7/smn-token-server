@@ -10,17 +10,19 @@ def get_token():
     try:
         response = requests.get(
             'https://smn.gob.ar',
-            headers={"Host": "smn.gob.ar"},
+            headers={
+                "Host": "smn.gob.ar",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36"
+            },
             verify=False
         )
         html = response.text
-        
-        # Guardar los primeros 1000 caracteres para debug
+
         snippet = html[:1000]
-        
+
         match = re.search(r"setItem\('token', '([^']+)'", html)
         token = match.group(1) if match else None
-        
+
         if token:
             return token
         else:
